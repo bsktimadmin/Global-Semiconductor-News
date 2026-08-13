@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Global Semiconductor & Economy Terminal</title>
+  
+  <!-- SEO Meta Tags -->
+  <meta name="description" content="A premium economics and hardware terminal offering real-time indexes, market share charts, supplier rankings, and deep-dive newsletters covering the global semiconductor supply chain.">
+  <meta name="keywords" content="semiconductor, IT news, silicon sales, foundry ranking, WSTS forecast, HBM, CXL, global economy, NASDAQ, SOX index">
+  
+  <!-- Fonts & Icons -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Noto+Sans+KR:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+  <script src="https://unpkg.com/lucide@latest"></script>
+  
+  <!-- Chart.js -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+  <!-- Custom CSS styling -->
+  <link rel="stylesheet" href="index.css">
+</head>
+<body>
+
+  <!-- App Wrapper -->
+  <div class="app-container">
+    
+    <!-- Top Header -->
+    <header class="main-header">
+      <div class="header-left">
+        <div class="logo">
+          <i data-lucide="cpu" class="logo-icon"></i>
+          <span>SILICON<span>TERMINAL</span></span>
+        </div>
+      </div>
+      
+      <!-- Top Navigation Tabs -->
+      <nav class="nav-tabs-container">
+        <ul class="nav-tabs" id="main-nav">
+          <li class="nav-tab active" data-category="all">
+            <i data-lucide="layout-dashboard"></i>Home Feed
+          </li>
+          <li class="nav-tab" data-category="global-semiconductor-sales">Global Semiconductor Sales</li>
+          <li class="nav-tab" data-category="outlook-forecast">Outlook & Forecast</li>
+          <li class="nav-tab" data-category="supplier-ranking">Supplier Ranking</li>
+          <li class="nav-tab" data-category="global-product-markets">Global Product Markets</li>
+          <li class="nav-tab" data-category="global-economy">Global Economy</li>
+          <li class="nav-tab" data-category="it-tech-news">IT & Tech News</li>
+          
+          <!-- Recommended Menus -->
+          <li class="nav-tab special-tab" data-category="geopolitics-supply-chain">
+            <i data-lucide="globe"></i>Geopolitics & Supply Chain
+          </li>
+          <li class="nav-tab special-tab" data-category="insights-deep-dives">
+            <i data-lucide="trending-up"></i>Insights & Deep Dives
+          </li>
+          <li class="nav-tab special-tab" data-category="tech-dictionary">
+            <i data-lucide="book-open"></i>Tech Dictionary
+          </li>
+        </ul>
+      </nav>
+
+      <div class="header-right">
+        <!-- Search bar -->
+        <div class="search-box">
+          <i data-lucide="search" class="search-icon"></i>
+          <input type="text" id="news-search" placeholder="Search news and terms...">
+        </div>
+        
+        <!-- Bookmarked news trigger -->
+        <button class="icon-btn" id="bookmark-toggle" title="Bookmarked Articles">
+          <i data-lucide="bookmark"></i>
+          <span class="badge" id="bookmark-count">0</span>
+        </button>
+
+        <!-- Theme Toggle Switch -->
+        <button class="theme-toggle-btn" id="theme-toggle" title="Switch Theme">
+          <i data-lucide="sun" class="sun-icon"></i>
+          <i data-lucide="moon" class="moon-icon"></i>
+        </button>
+      </div>
+    </header>
+
+    <!-- Real-time Stock Ticker Bar -->
+    <div class="ticker-bar">
+      <div class="ticker-title">
+        <i data-lucide="activity" class="ticker-live-icon"></i>
+        <span>LIVE INDEX</span>
+      </div>
+      <div class="ticker-wrapper">
+        <div class="ticker-track" id="ticker-track">
+          <!-- Items injected via JS -->
+        </div>
+      </div>
+    </div>
+
+    <!-- Main Grid Workspace -->
+    <main class="main-workspace">
+      
+      <!-- LEFT SIDEBAR: Markets & Indicators -->
+      <aside class="sidebar left-sidebar">
+        <div class="sidebar-section">
+          <h3 class="section-title">
+            <i data-lucide="bar-chart-2"></i>Market Indicators
+          </h3>
+          <div class="indices-grid" id="sidebar-indices">
+            <!-- Market index list injected via JS -->
+          </div>
+        </div>
+
+        <div class="sidebar-section">
+          <h3 class="section-title">
+            <i data-lucide="cpu"></i>Live Bulletins
+          </h3>
+          <div class="live-bulletins">
+            <div class="bulletin-item">
+              <span class="bulletin-time">17:35</span>
+              <p class="bulletin-text">US Biden administration planning to announce final CHIPS Act funding package for Intel Corp.</p>
+            </div>
+            <div class="bulletin-item">
+              <span class="bulletin-time">16:12</span>
+              <p class="bulletin-text">TSMC coordinates Arizona Fab 2 cleanroom tooling deliveries schedule for Q2 2026.</p>
+            </div>
+            <div class="bulletin-item">
+              <span class="bulletin-time">14:50</span>
+              <p class="bulletin-text">Samsung Electronics surges on report of passing NVIDIA's 2nd stage qual test for 8-layer HBM3E.</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="sidebar-section">
+          <h3 class="section-title">
+            <i data-lucide="star"></i>Bookmarked Articles
+          </h3>
+          <div class="bookmarked-list" id="sidebar-bookmarks">
+            <p class="empty-msg">No bookmarked articles. Click the bookmark icon on news cards to save them.</p>
+          </div>
+        </div>
+      </aside>
+
+      <!-- CENTER CONTENT: Category View & Article Feed -->
+      <section class="content-viewport">
+        
+        <!-- Category Dashboard Header (Shows when a menu is clicked) -->
+        <div class="category-header">
+          <div class="category-info">
+            <h1 id="category-title">Global News Feed</h1>
+            <p id="category-desc">Real-time intelligence dashboard covering hardware engineering, fabless design, macro economics, and packaging supply chains.</p>
+          </div>
+          <div class="category-actions">
+            <button class="filter-btn active" data-filter="all">All News</button>
+            <button class="filter-btn" data-filter="popular">Popular</button>
+            <button class="filter-btn" data-filter="recent">Recent</button>
+          </div>
+        </div>
+
+        <!-- Interactive Charts Dashboard Section (Visible on relevant tabs) -->
+        <div class="charts-dashboard-container" id="charts-dashboard" style="display: none;">
+          <div class="chart-card">
+            <div class="chart-card-header">
+              <h4 id="chart-title">Data Visualization</h4>
+              <span class="chart-badge">Interactive</span>
+            </div>
+            <div class="chart-canvas-wrapper">
+              <canvas id="semiconductor-chart"></canvas>
+            </div>
+          </div>
+        </div>
+
+        <!-- Dynamic Content/News Grid -->
+        <div class="news-grid" id="news-grid-container">
+          <!-- News cards injected via JS -->
+        </div>
+
+        <!-- Dictionary/Glossary Container (Special tab view) -->
+        <div class="dictionary-view-container" id="dictionary-view" style="display: none;">
+          <div class="dict-header-row">
+            <h2>Semiconductor & IT Glossary</h2>
+            <p>Essential terminology covering physical chip fabrication, design architectures, and hardware supply chain operations.</p>
+          </div>
+          <div class="dict-grid" id="dict-grid-container">
+            <!-- Term cards injected via JS -->
+          </div>
+        </div>
+      </section>
+
+      <!-- RIGHT SIDEBAR: Data Widgets & Trends -->
+      <aside class="sidebar right-sidebar">
+        
+        <div class="sidebar-section">
+          <h3 class="section-title">
+            <i data-lucide="pie-chart"></i>Product Category Share
+          </h3>
+          <div class="mini-chart-wrapper">
+            <canvas id="mini-share-chart"></canvas>
+          </div>
+        </div>
+
+        <div class="sidebar-section">
+          <h3 class="section-title">
+            <i data-lucide="trophy"></i>Top Suppliers Ranking
+          </h3>
+          <div class="rank-list" id="sidebar-rankings">
+            <!-- Rankings injected via JS -->
+          </div>
+        </div>
+
+        <div class="sidebar-section newsletter-signup">
+          <i data-lucide="mail-open" class="newsletter-icon"></i>
+          <h4>Silicon Weekly Briefing</h4>
+          <p>Get professional breakdowns of fab investments, advanced packaging trends, and geopolitics delivered directly to your inbox.</p>
+          <div class="input-group">
+            <input type="email" placeholder="Enter your email address">
+            <button class="btn btn-primary">Subscribe</button>
+          </div>
+        </div>
+      </aside>
+
+    </main>
+
+    <!-- Slide-in Drawer for Article Detail View -->
+    <div class="article-drawer-overlay" id="article-drawer-overlay"></div>
+    <div class="article-drawer" id="article-drawer">
+      
+      <!-- Drawer Header -->
+      <div class="drawer-header">
+        <button class="close-drawer-btn" id="close-drawer">
+          <i data-lucide="arrow-left"></i> Back to Feed
+        </button>
+        <div class="drawer-header-actions">
+          <button class="icon-btn" id="drawer-bookmark-btn" title="Bookmark Article">
+            <i data-lucide="bookmark"></i>
+          </button>
+          <button class="icon-btn" id="drawer-share-btn" title="Copy URL">
+            <i data-lucide="share-2"></i>
+          </button>
+        </div>
+      </div>
+
+      <!-- Drawer Body (Article Contents) -->
+      <article class="drawer-content" id="drawer-content-body">
+        <!-- Content dynamic injection -->
+      </article>
+
+      <!-- Related News Section at the bottom of the article -->
+      <div class="drawer-related-section">
+        <h4>Related Articles</h4>
+        <div class="related-grid" id="related-news-container">
+          <!-- Injected via JS -->
+        </div>
+      </div>
+    </div>
+
+    <!-- Toast Notification -->
+    <div class="toast-container" id="toast">Copied to clipboard.</div>
+
+  </div>
+
+  <!-- Javascript Files -->
+  <script src="mockData.js"></script>
+  <script src="charts.js"></script>
+  <script src="index.js"></script>
+</body>
+</html>
